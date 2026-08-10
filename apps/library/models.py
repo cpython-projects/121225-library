@@ -23,6 +23,7 @@ class Author(UUIDModel, TimeStampedModel):
 
     deleted_at = models.DateTimeField(null=True, blank=True, verbose_name=_('Deleted at'))
 
+
     @property
     def is_deleted(self):
         return self.deleted_at is not None

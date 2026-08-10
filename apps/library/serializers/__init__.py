@@ -1,1 +1,1 @@
-from .books import BookSerializer, BookListSerializer, BookCreateSerializer
+from .author import AuthorSerializer, AuthorDetailSerializer
