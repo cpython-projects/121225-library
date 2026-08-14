@@ -5,6 +5,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
 
 
+
 from django.contrib.auth import get_user_model
 from django.db import connection
 from apps.library.models import Author, AuthorDetail, Book, Borrow, Library
@@ -14,6 +15,11 @@ from django.db.models import Avg, Sum, Count, Max, Min, Subquery, OuterRef
 
 User = get_user_model()
 
+
+# res = Book.objects.prefetch_related('libraries').all()
+# for item in res:
+#     print(item.libraries)
+# print()
 
 # with connection.cursor() as cursor:
 #     cursor.execute('SELECT * FROM authors')

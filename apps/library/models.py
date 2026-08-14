@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.conf import settings
 
 from apps.core.models import UUIDModel, TimeStampedModel, Gender, age_validator
+from apps.library.managers import AuthorSoftDeleteManager
 
 
 class Author(UUIDModel, TimeStampedModel):
@@ -23,6 +24,9 @@ class Author(UUIDModel, TimeStampedModel):
 
     deleted_at = models.DateTimeField(null=True, blank=True, verbose_name=_('Deleted at'))
 
+    objects = AuthorSoftDeleteManager()
+    all_objects = models.Manager()
+
 
     @property
     def is_deleted(self):
@@ -31,8 +35,19 @@ class Author(UUIDModel, TimeStampedModel):
     def __str__(self):
         return f'{self.first_name[0]}. {self.last_name}; {self.date_of_birth}'
 
+    def delete(self, *args, **kwargs):
+        self.deleted_at = timezone.now()
+        self.save(update_fields=['deleted_at'])
+
+    def restore(self, *args, **kwargs):
+        self.deleted_at = None
+        self.save(update_fields=['deleted_at'])
+
     class Meta:
         db_table = 'authors'
+
+
+
 
 
 class AuthorDetail(TimeStampedModel):

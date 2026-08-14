@@ -15,12 +15,12 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 
 
-from .serializers import (AuthorSerializer,
-                          AuthorDetailSerializer, BookSerializer,
-                          BookCreateSerializer,
-                        CategorySerializer,
-                          )
-from .models import Author, AuthorDetail, Book
+from apps.library.serializers import (AuthorSerializer,
+                                      AuthorDetailSerializer, BookSerializer,
+                                      BookCreateSerializer,
+                                      CategorySerializer,
+                                      )
+from apps.library.models import Author, AuthorDetail, Book
 
 class CategoryListAPIView(generics.ListAPIView):
     queryset = Category.objects.all()
