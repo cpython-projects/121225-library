@@ -7,19 +7,25 @@ User = get_user_model()
 
 
 class BookSerializer(serializers.ModelSerializer):
-    author = serializers.PrimaryKeyRelatedField(
-        queryset=Author.objects.all(), allow_null=True, required=False
-    )
-    # average_rating = serializers.FloatField(source='rating_db', read_only=True)
-
     class Meta:
         model = Book
-        fields = (
-            'id', 'title', 'author', 'published_at', 'genre', 'page_count',
-            'category', 'publisher', 'libraries', 'description', 'photo',
-            # 'average_rating',
-        )
-        read_only_fields = ('id', 'average_rating')
+        fields = '__all__'
+
+
+# class BookSerializer(serializers.ModelSerializer):
+#     author = serializers.PrimaryKeyRelatedField(
+#         queryset=Author.objects.all(), allow_null=True, required=False
+#     )
+#     average_rating = serializers.FloatField(source='rating_db', read_only=True)
+#
+#     class Meta:
+#         model = Book
+#         fields = (
+#             'id', 'title', 'author', 'published_at', 'genre', 'page_count',
+#             'category', 'publisher', 'libraries', 'description', 'photo',
+#             'average_rating',
+#         )
+#         read_only_fields = ('id', 'average_rating')
 
 
 class BookCreateSerializer(serializers.ModelSerializer):

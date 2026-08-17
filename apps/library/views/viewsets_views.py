@@ -12,6 +12,8 @@ from apps.library.models import Category, Post, Book, Author
 from apps.library.serializers import CategorySerializer, PostSerializer, BookSerializer, AuthorSerializer
 from apps.library.filters import BookFilter
 
+from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination, CursorPagination
+
 
 @api_view(['POST'])
 @transaction.atomic
@@ -61,20 +63,27 @@ class CategoryViewSet(
         return Response(data, status=status.HTTP_200_OK)
 
 
-
 class PostViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
 
+class BookPagination(PageNumberPagination):
+    page_size = 5
+    page_size_query_param = 'page_size'
+    max_page_size = 10
+
+
+class BookCursorPagination(CursorPagination):
+    page_size = 5
+    ordering = ('-created_at', )
+
+
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    # filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    # # filterset_fields = ['genre', 'category', 'publisher']
-    # filterset_class = BookFilter
-    # search_fields = ['title', 'author__first_name', 'author__last_name']
-    # ordering_fields = ['published_at', 'page_count', 'genre']
+    pagination_class = BookCursorPagination
+
 
     serializer_classes = {
         'list': PostSerializer,

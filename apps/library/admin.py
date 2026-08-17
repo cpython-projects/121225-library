@@ -93,20 +93,15 @@ class LibraryAdmin(admin.ModelAdmin):
 class BookAdmin(admin.ModelAdmin):
     list_display = (
         "title", "author", "genre", "category",
-        "published_at", "rating_display", "publisher",
+        "published_at", "publisher",
     )
     list_filter = ("genre", "category", "libraries")
     search_fields = ("title", "author__first_name", "author__last_name")
     autocomplete_fields = ("author", "category", "publisher")
     filter_horizontal = ("libraries",)
-    readonly_fields = ("created_at", "updated_at", "rating_display")
+    readonly_fields = ("created_at", "updated_at")
     list_select_related = ("author", "category", "publisher")
     date_hierarchy = "published_at"
-
-    @admin.display(description=_("Rating"))
-    def rating_display(self, obj):
-        return obj.rating
-
 
 # ---------------------------------------------------------------- #
 # Post

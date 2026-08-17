@@ -93,33 +93,25 @@ LOGGING = {
     },
     'handlers': {
         'console': {
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
         },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'formatter': 'verbose',
+            'filename': BASE_DIR / 'logs' / 'django.log',
+            'maxBytes': 1024 * 1024 * 5, 'backupCount': 5,
+        }
     },
     'loggers': {
         # SQL-запросы к БД (sqlite и любой другой)
         'django.db.backends': {
-            'handlers': ['console'],
+            'handlers': ['console', 'file'],
             'level': 'DEBUG',
             'propagate': False,
         },
-        # Ошибки запросов (4xx/5xx), в том числе из DRF-views
-        'django.request': {
-            'handlers': ['console'],
-            'level': 'WARNING',
-            'propagate': False,
-        },
-        # Всё остальное django-логирование
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'WARNING',
     },
 }
 
@@ -128,6 +120,8 @@ LOGGING = {
 REST_FRAMEWORK = {
     # 'EXCEPTION_HANDLER': 'apps.library.exceptions.exception_handler.custom_exception_handler'
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
 }
 
 
